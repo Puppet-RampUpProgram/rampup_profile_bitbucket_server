@@ -1,6 +1,8 @@
 # bitbucket profile based on thewired/bitbucket
 class rampup_profile_bitbucket_server (
   $bitbucket_server_version = '4.4.1',
+  $bitbucket_dbuser         = 'bitbucket',
+  $bitbucket_dbpassword     = 'password',
 ) {
 
   #The bitbucket module uses archive or staging module
@@ -27,8 +29,8 @@ class rampup_profile_bitbucket_server (
   #class { 'bitbucket::facts': }
 
   postgresql::server::db { 'bitbucket':
-    user     => 'bitbucket',
-    password => postgresql_password('bitbucket', 'password'),
+    user     => $bitbucket_dbuser,
+    password => postgresql_password($bitbucket_dbuser, $bitbucket_dbpassword),
   } ->
 
   class { 'bitbucket':
@@ -36,7 +38,9 @@ class rampup_profile_bitbucket_server (
     #dev.mode grants a 24-hour license for testing
     java_opts   => '-Datlassian.dev.mode=true',
     version     => $bitbucket_server_version,
-    require     => [ Package['git', 'unzip'] ]
+    require     => [ Package['git', 'unzip'] ],
+    dbuser      => $bitbucket_dbuser,
+    dbpassword  => $bitbucket_dbpassword,
   }
 
 }
