@@ -1,5 +1,7 @@
 # bitbucket profile based on thewired/bitbucket
-class rampup_profile_bitbucket_server {
+class rampup_profile_bitbucket_server (
+  $bitbucket_server_version = '4.4.1',
+) {
 
   #The bitbucket module uses archive or staging module
   #which requires unzip but doesn't seem to install it
@@ -33,7 +35,7 @@ class rampup_profile_bitbucket_server {
     javahome    => '/etc/alternatives/java_sdk',
     #dev.mode grants a 24-hour license for testing
     java_opts   => '-Datlassian.dev.mode=true',
-    version     => '4.4.1',
+    version     => $bitbucket_server_version,
     require     => [ Package['git', 'unzip'] ]
   }
 
