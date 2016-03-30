@@ -1,5 +1,5 @@
 # stash profile based on puppet/stash
-class profile::stash {
+class rampup_profile_stash {
 
   class { 'java' :
     version => present,
